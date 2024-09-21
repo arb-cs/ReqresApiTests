@@ -1,9 +1,25 @@
 plugins {
     id 'java'
+    id 'io.freefair.lombok' version '8.10'
+    id 'io.qameta.allure' version '2.12.0'
 }
 
 repositories {
     mavenCentral()
+}
+
+allure {
+    report {
+        version.set('2.29.0')
+    }
+    adapter {
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set('2.29.0')
+            }
+        }
+    }
 }
 
 compileJava {
@@ -17,7 +33,11 @@ compileTestJava {
 dependencies {
     testImplementation(
             'org.junit.jupiter:junit-jupiter:5.10.2',
-            'io.rest-assured:rest-assured:5.5.0'
+            'io.rest-assured:rest-assured:5.5.0',
+            'io.rest-assured:json-schema-validator:5.5.0',
+            'io.qameta.allure:allure-rest-assured:2.29.0',
+            'org.slf4j:slf4j-simple:2.0.13',
+            'com.github.javafaker:javafaker:1.0.2'
     )
 }
 
