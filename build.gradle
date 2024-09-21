@@ -41,6 +41,8 @@ dependencies {
     )
 }
 
-test {
-    useJUnitPlatform()
+task reqres_api_tests(type: Test) {
+    useJUnitPlatform {
+        includeTags("ReqRes")
+    }
 }

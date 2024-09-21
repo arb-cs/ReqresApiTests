@@ -25,6 +25,7 @@ public class ReqresApiTests extends TestBase {
     @Test
     @DisplayName("Create a user.")
     @Severity(SeverityLevel.BLOCKER)
+    @Tag("ReqRes")
     void createUserTest() {
 
         authPayload.setName(testData.name);
@@ -53,6 +54,7 @@ public class ReqresApiTests extends TestBase {
     @Test
     @DisplayName("Get a user's data.")
     @Severity(SeverityLevel.CRITICAL)
+    @Tag("ReqRes")
     void getSingleUserTest() {
 
         GetSingleUserResponseModel response = step("Make a request to get a user's data", () ->
@@ -75,6 +77,7 @@ public class ReqresApiTests extends TestBase {
     @Test
     @DisplayName("Update a user's data.")
     @Severity(SeverityLevel.CRITICAL)
+    @Tag("ReqRes")
     void updateUserTest() {
 
         authPayload.setName(testData.name);
@@ -101,6 +104,7 @@ public class ReqresApiTests extends TestBase {
     @Test
     @DisplayName("Register a new user.")
     @Severity(SeverityLevel.BLOCKER)
+    @Tag("ReqRes")
     void registerUserTest() {
 
         RegisterUserPayloadModel regUserPayload = new RegisterUserPayloadModel();
@@ -130,6 +134,7 @@ public class ReqresApiTests extends TestBase {
     @Test
     @DisplayName("When the user does not exist in our system.")
     @Severity(SeverityLevel.MINOR)
+    @Tag("ReqRes")
     void userDoesNotExistTest() {
 
         Object response = step("Perform a query for a non-existent user.", () ->
