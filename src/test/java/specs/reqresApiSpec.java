@@ -13,10 +13,7 @@ public class reqresApiSpec {
     public static RequestSpecification userOperationsRequestSpec = with()
             .filter(withCustomTemplates())
             .contentType(JSON)
-            .log().method()
-            .log().uri()
-            .log().body()
-            .log().headers();
+            .log().all();
 
     public static ResponseSpecification userOperationsResponseSpec = new ResponseSpecBuilder()
             .log(STATUS)

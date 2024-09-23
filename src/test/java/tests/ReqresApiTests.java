@@ -20,7 +20,7 @@ import java.util.Collections;
 public class ReqresApiTests extends TestBase {
 
     TestData testData = new TestData();
-    CreateOrUpdateUserPayloadModel authPayload = new CreateOrUpdateUserPayloadModel();
+    CreateUpdateUserRequestModel authPayload = new CreateUpdateUserRequestModel();
 
     @Test
     @DisplayName("Create a user.")
@@ -31,7 +31,7 @@ public class ReqresApiTests extends TestBase {
         authPayload.setName(testData.name);
         authPayload.setJob(testData.job);
 
-        CreateOrUpdateUserResponseModel response = step("Make a request to create a user.", () ->
+        UserResponseModel response = step("Make a request to create a user.", () ->
         given()
             .spec(userOperationsRequestSpec)
             .body(authPayload)
@@ -40,7 +40,7 @@ public class ReqresApiTests extends TestBase {
         .then()
             .spec(userOperationsResponseSpec)
             .statusCode(201)
-            .extract().as(CreateOrUpdateUserResponseModel.class));
+            .extract().as(UserResponseModel.class));
 
         step("Verify that the user was created with the previously passed data.", () -> {
             assertEquals(testData.name, response.getName());
@@ -57,15 +57,18 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void getSingleUserTest() {
 
-        GetSingleUserResponseModel response = step("Make a request to get a user's data", () ->
+        // userId is hardcoded because the API does not support full-value CRUD operations.
+         int userId = 2;
+
+        GetUserResponseModel response = step("Make a request to get a user's data", () ->
         given()
             .spec(userOperationsRequestSpec)
         .when()
-            .get("/users/" + testData.userId)
+            .get("/users/" + userId)
         .then()
             .spec(userOperationsResponseSpec)
             .statusCode(200)
-            .extract().as(GetSingleUserResponseModel.class));
+            .extract().as(GetUserResponseModel.class));
 
         step("Perform validation of the method response", () -> {
             assertThat(response.getData(), hasKey("id"));
@@ -80,19 +83,22 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void updateUserTest() {
 
+        // userId is hardcoded because the API does not support full-value CRUD operations.
+        int userId = 2;
+
         authPayload.setName(testData.name);
         authPayload.setJob(testData.job);
 
-        CreateOrUpdateUserResponseModel response = step("Update user's name and job request", () ->
+        UserResponseModel response = step("Update user's name and job request", () ->
         given()
             .spec(userOperationsRequestSpec)
             .body(authPayload)
         .when()
-            .put("/users/" + testData.userId)
+            .put("/users/" + userId)
         .then()
             .spec(userOperationsResponseSpec)
             .statusCode(200)
-            .extract().as(CreateOrUpdateUserResponseModel.class));
+            .extract().as(UserResponseModel.class));
 
         step("Verify that the user was updated with the previously passed data.", () -> {
             assertEquals(testData.name, response.getName());
@@ -137,11 +143,14 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void userDoesNotExistTest() {
 
+        // This is the hardcoded usedId for the user which does not exist in the system.
+        int unexistedUserId = 23;
+
         Object response = step("Perform a query for a non-existent user.", () ->
         given()
             .spec(userOperationsRequestSpec)
         .when()
-            .get("/users/" + testData.unexistedUserId)
+            .get("/users/" + unexistedUserId)
         .then()
             .spec(userOperationsResponseSpec)
             .statusCode(404)

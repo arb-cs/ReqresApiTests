@@ -6,7 +6,7 @@ import java.util.Map;
 
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GetSingleUserResponseModel {
+public class GetUserResponseModel {
     private Map<String,?> data;
     private Map<String,String> support;
 }
