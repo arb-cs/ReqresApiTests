@@ -13,13 +13,13 @@ import io.qameta.allure.Story;
 import io.qameta.allure.Severity;
 import models.*;
 import static specs.reqresApiSpec.*;
-import utils.TestData;
+import static utils.TestData.getDataForRegistration;
+import static utils.TestData.getUserData;
 import java.util.Collections;
 
 @Story("Methods of the ReqRes API.")
 public class ReqresApiTests extends TestBase {
 
-    TestData testData = new TestData();
     CreateUpdateUserRequestModel authPayload = new CreateUpdateUserRequestModel();
 
     @Test
@@ -28,8 +28,8 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void createUserTest() {
 
-        authPayload.setName(testData.name);
-        authPayload.setJob(testData.job);
+        authPayload.setName(getUserData().getName());
+        authPayload.setJob(getUserData().getJob());
 
         UserResponseModel response = step("Make a request to create a user.", () ->
         given()
@@ -43,8 +43,8 @@ public class ReqresApiTests extends TestBase {
             .extract().as(UserResponseModel.class));
 
         step("Verify that the user was created with the previously passed data.", () -> {
-            assertEquals(testData.name, response.getName());
-            assertEquals(testData.job, response.getJob());
+            assertEquals(authPayload.getName(), response.getName());
+            assertEquals(authPayload.getJob(), response.getJob());
             assertThat(response.getId(), instanceOf(String.class));
             assertThat(response.getCreatedAt(), notNullValue());
         });
@@ -86,8 +86,8 @@ public class ReqresApiTests extends TestBase {
         // userId is hardcoded because the API does not support full-value CRUD operations.
         int userId = 2;
 
-        authPayload.setName(testData.name);
-        authPayload.setJob(testData.job);
+        authPayload.setName(getUserData().getName());
+        authPayload.setJob(getUserData().getJob());
 
         UserResponseModel response = step("Update user's name and job request", () ->
         given()
@@ -101,8 +101,8 @@ public class ReqresApiTests extends TestBase {
             .extract().as(UserResponseModel.class));
 
         step("Verify that the user was updated with the previously passed data.", () -> {
-            assertEquals(testData.name, response.getName());
-            assertEquals(testData.job, response.getJob());
+            assertEquals(authPayload.getName(), response.getName());
+            assertEquals(authPayload.getJob(), response.getJob());
         });
 
     }
@@ -113,10 +113,10 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void registerUserTest() {
 
-        RegisterUserPayloadModel regUserPayload = new RegisterUserPayloadModel();
+        RegisterUserRequestModel regUserPayload = new RegisterUserRequestModel();
         // Value for the email is hardcoded because the API does not allow other credentials
         regUserPayload.setEmail("eve.holt@reqres.in");
-        regUserPayload.setPassword(testData.password);
+        regUserPayload.setPassword(getDataForRegistration().getPassword());
 
         RegisterUserResponseModel response = step("Register user invoking the /register method", () ->
         given()

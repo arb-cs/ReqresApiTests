@@ -3,7 +3,7 @@ package models;
 import lombok.Data;
 
 @Data
-public class RegisterUserPayloadModel {
+public class RegisterUserRequestModel {
     private String email;
     private String password;
 }
