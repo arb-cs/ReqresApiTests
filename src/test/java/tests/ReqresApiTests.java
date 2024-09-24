@@ -20,7 +20,7 @@ import java.util.Collections;
 @Story("Methods of the ReqRes API.")
 public class ReqresApiTests extends TestBase {
 
-    CreateUpdateUserRequestModel authPayload = new CreateUpdateUserRequestModel();
+    CreateUpdateUserRequestModel authBody = new CreateUpdateUserRequestModel();
 
     @Test
     @DisplayName("Create a user.")
@@ -28,13 +28,13 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void createUserTest() {
 
-        authPayload.setName(getUserData().getName());
-        authPayload.setJob(getUserData().getJob());
+        authBody.setName(getUserData().getName());
+        authBody.setJob(getUserData().getJob());
 
         UserResponseModel response = step("Make a request to create a user.", () ->
         given()
             .spec(userOperationsRequestSpec)
-            .body(authPayload)
+            .body(authBody)
         .when()
             .post("/users")
         .then()
@@ -43,8 +43,8 @@ public class ReqresApiTests extends TestBase {
             .extract().as(UserResponseModel.class));
 
         step("Verify that the user was created with the previously passed data.", () -> {
-            assertEquals(authPayload.getName(), response.getName());
-            assertEquals(authPayload.getJob(), response.getJob());
+            assertEquals(authBody.getName(), response.getName());
+            assertEquals(authBody.getJob(), response.getJob());
             assertThat(response.getId(), instanceOf(String.class));
             assertThat(response.getCreatedAt(), notNullValue());
         });
@@ -86,13 +86,13 @@ public class ReqresApiTests extends TestBase {
         // userId is hardcoded because the API does not support full-value CRUD operations.
         int userId = 2;
 
-        authPayload.setName(getUserData().getName());
-        authPayload.setJob(getUserData().getJob());
+        authBody.setName(getUserData().getName());
+        authBody.setJob(getUserData().getJob());
 
         UserResponseModel response = step("Update user's name and job request", () ->
         given()
             .spec(userOperationsRequestSpec)
-            .body(authPayload)
+            .body(authBody)
         .when()
             .put("/users/" + userId)
         .then()
@@ -101,8 +101,8 @@ public class ReqresApiTests extends TestBase {
             .extract().as(UserResponseModel.class));
 
         step("Verify that the user was updated with the previously passed data.", () -> {
-            assertEquals(authPayload.getName(), response.getName());
-            assertEquals(authPayload.getJob(), response.getJob());
+            assertEquals(authBody.getName(), response.getName());
+            assertEquals(authBody.getJob(), response.getJob());
         });
 
     }
