@@ -12,7 +12,7 @@ import static io.qameta.allure.Allure.step;
 import io.qameta.allure.Story;
 import io.qameta.allure.Severity;
 import models.*;
-import static specs.reqresApiSpec.*;
+import static specs.ReqresApiSpec.*;
 import static utils.TestData.getDataForRegistration;
 import static utils.TestData.getUserData;
 import java.util.Collections;

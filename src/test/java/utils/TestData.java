@@ -6,9 +6,9 @@ import models.RegisterUserRequestModel;
 
 public class TestData {
 
-    public static CreateUpdateUserRequestModel getUserData() {
+    private final static Faker faker = new Faker();
 
-        Faker faker = new Faker();
+    public static CreateUpdateUserRequestModel getUserData() {
 
         CreateUpdateUserRequestModel userModel = new CreateUpdateUserRequestModel();
         userModel.setName(faker.name().firstName());
@@ -18,8 +18,6 @@ public class TestData {
     }
 
     public static RegisterUserRequestModel getDataForRegistration() {
-
-        Faker faker = new Faker();
 
         RegisterUserRequestModel userRegisterModel = new RegisterUserRequestModel();
         // Value for the email is hardcoded because the API does not allow other credentials
