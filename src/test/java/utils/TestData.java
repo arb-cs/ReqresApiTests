@@ -22,6 +22,8 @@ public class TestData {
         Faker faker = new Faker();
 
         RegisterUserRequestModel userRegisterModel = new RegisterUserRequestModel();
+        // Value for the email is hardcoded because the API does not allow other credentials
+        userRegisterModel.setEmail("eve.holt@reqres.in");
         userRegisterModel.setPassword(faker.internet().password());
 
         return userRegisterModel;

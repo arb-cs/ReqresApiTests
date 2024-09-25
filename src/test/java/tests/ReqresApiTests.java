@@ -20,16 +20,13 @@ import java.util.Collections;
 @Story("Methods of the ReqRes API.")
 public class ReqresApiTests extends TestBase {
 
-    CreateUpdateUserRequestModel authBody = new CreateUpdateUserRequestModel();
-
     @Test
     @DisplayName("Create a user.")
     @Severity(SeverityLevel.BLOCKER)
     @Tag("ReqRes")
     void createUserTest() {
 
-        authBody.setName(getUserData().getName());
-        authBody.setJob(getUserData().getJob());
+        CreateUpdateUserRequestModel authBody = getUserData();
 
         UserResponseModel response = step("Make a request to create a user.", () ->
         given()
@@ -83,11 +80,10 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void updateUserTest() {
 
+        CreateUpdateUserRequestModel authBody = getUserData();
+
         // userId is hardcoded because the API does not support full-value CRUD operations.
         int userId = 2;
-
-        authBody.setName(getUserData().getName());
-        authBody.setJob(getUserData().getJob());
 
         UserResponseModel response = step("Update user's name and job request", () ->
         given()
@@ -113,15 +109,12 @@ public class ReqresApiTests extends TestBase {
     @Tag("ReqRes")
     void registerUserTest() {
 
-        RegisterUserRequestModel regUserPayload = new RegisterUserRequestModel();
-        // Value for the email is hardcoded because the API does not allow other credentials
-        regUserPayload.setEmail("eve.holt@reqres.in");
-        regUserPayload.setPassword(getDataForRegistration().getPassword());
+        RegisterUserRequestModel regUserBody = getDataForRegistration();
 
         RegisterUserResponseModel response = step("Register user invoking the /register method", () ->
         given()
             .spec(userOperationsRequestSpec)
-            .body(regUserPayload)
+            .body(regUserBody)
         .when()
             .post("/register")
         .then()
